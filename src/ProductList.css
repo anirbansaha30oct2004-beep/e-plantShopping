@@ -250,3 +250,19 @@ body {
         text-align: center; /* Align text to the center */
       }
   }
+  .cart {
+  position: relative;
+  display: inline-block;
+}
+
+.cart-quantity-badge {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: #e57373; /* or matching project colors */
+  color: white;
+  border-radius: 50%;
+  padding: 3px 8px;
+  font-size: 16px;
+  font-weight: bold;
+}
