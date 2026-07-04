@@ -9,31 +9,48 @@ const CartItem = ({ onContinueShopping }) => {
 
   // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
- 
+    return cart.reduce((total, item) => {
+      // Strips away the '$' sign and parses into a number
+      const costNum = parseFloat(item.cost.substring(1));
+      return total + (costNum * item.quantity);
+    }, 0);
   };
 
   const handleContinueShopping = (e) => {
-   
+    e.preventDefault();
+    onContinueShopping(e); // Invokes the parent layout function to go back to the plants view
   };
 
-
+  const handleCheckoutShopping = (e) => {
+    alert('Functionality to be added for future reference');
+  };
 
   const handleIncrement = (item) => {
+    dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }));
   };
 
   const handleDecrement = (item) => {
-   
+    if (item.quantity > 1) {
+      dispatch(updateQuantity({ name: item.name, quantity: item.quantity - 1 }));
+    } else {
+      // If quantity drops to 0, completely wipe the item from the cart
+      dispatch(removeItem(item.name));
+    }
   };
 
   const handleRemove = (item) => {
+    dispatch(removeItem(item.name));
   };
 
-  // Calculate total cost based on quantity for an item
+  // Calculate total cost based on quantity for a specific item
   const calculateTotalCost = (item) => {
+    const costNum = parseFloat(item.cost.substring(1));
+    return costNum * item.quantity;
   };
 
   return (
     <div className="cart-container">
+      {/* Displays the total amount cleanly */}
       <h2 style={{ color: 'black' }}>Total Cart Amount: ${calculateTotalAmount()}</h2>
       <div>
         {cart.map(item => (
@@ -57,12 +74,10 @@ const CartItem = ({ onContinueShopping }) => {
       <div className="continue_shopping_btn">
         <button className="get-started-button" onClick={(e) => handleContinueShopping(e)}>Continue Shopping</button>
         <br />
-        <button className="get-started-button1">Checkout</button>
+        <button className="get-started-button1" onClick={handleCheckoutShopping}>Checkout</button>
       </div>
     </div>
   );
 };
 
 export default CartItem;
-
-
